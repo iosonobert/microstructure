@@ -564,7 +564,7 @@ def main(fn):
             print("{0} is a fast column".format(section_name))
             would_be_slow_name = res.groups()[0]
         else:
-            print "{0} is not a fast column, skipping".format(section_name)
+            print("{0} is not a fast column, skipping".format(section_name))
             continue
                     
         if would_be_slow_name in section_names:
