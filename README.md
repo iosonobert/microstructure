@@ -1,3 +1,3 @@
 # microstructure
 
-Attempted translation of ODAS to python
+Incomplete attempted translation of some ODAS features to python. 

@@ -17,7 +17,7 @@ def read_p(fn):
     
         data = f_in.read()
     
-    print "file open"   
+    print("file open")
     return data
     
 def get_header():
@@ -191,7 +191,7 @@ def cfg_find_channels(config_string):
     config_string_lines = cfg_read_str(config_string)
 
     tags =  [config_string_lines[n] for n in section_tags[0:-1]]
-    print tags 
+    print(tags) 
     
     channels = []
     for tag in tags:
@@ -240,6 +240,7 @@ def calibrate(section_dict):
         denominator = 2*math.sqrt(2)*float(section_dict["diff_gain"])*float(section_dict["sens"])
         
         section_dict["data_physical"] = numerator / denominator
+        
     elif section_dict["type"].lower() == 'therm':
         
         required_parameters = ('adc_fs', 'adc_bits', 't_0', 'g', 'a', 'b', 'e_b')
@@ -289,9 +290,9 @@ def calibrate(section_dict):
                     continue
                 
                 physical += coeff*np.power(section_dict["data"], n)
-                print 'success'
+                print('success')
             except:
-                print 'failed'
+                print('failed')
 
         section_dict["data_physical"] = physical      
         
@@ -326,8 +327,8 @@ def calibrate_parmeter_check(section_dict, required_parameters):
         
         if not section_dict.has_key(required_parameter):
             
-            print section_dict
-            print required_parameter
+            print(section_dict)
+            print(required_parameter)
             raise(Exception("Key error", "This section is missing a required parameter"))
     
 def calibrate_adis(data):
@@ -517,7 +518,7 @@ def main(fn):
     all_vectors = all_vectors.T
     all_times = all_times.T
         
-    print "Reading complete, calculating time and calibrating"
+    print("Reading complete, calculating time and calibrating")
     
     output = {}
     output['channels'] = channels
@@ -551,25 +552,25 @@ def main(fn):
         
         section_dict = output[section_name]
         if not section_dict.has_key('diff_gain'):
-            print "{0} has no diff_gain property, skippping".format(section_name)
+            print("{0} has no diff_gain property, skippping".format(section_name))
             continue
         
         if section_dict['type'] == 'shear' or section_dict['type'] == 'xmp_shear':
-            print "{0} is a shear measurement, skippping".format(section_name)
+            print("{0} is a shear measurement, skippping".format(section_name))
             continue
         
         res = re.match('(.*)_d(.*?)', section_name)
         if res:
-            print "{0} is a fast column".format(section_name)
+            print("{0} is a fast column".format(section_name))
             would_be_slow_name = res.groups()[0]
         else:
             print "{0} is not a fast column, skipping".format(section_name)
             continue
                     
         if would_be_slow_name in section_names:
-            print "{0} has a non-preemphasised column, deconvolve".format(section_name)
+            print("{0} has a non-preemphasised column, deconvolve".format(section_name))
         else:
-            print "{0} has no non-preemphasised column, skipping for now but this is still possible to process".format(section_name)
+            print("{0} has no non-preemphasised column, skipping for now but this is still possible to process".format(section_name))
             continue
         
         id_here = int(section_dict['id'])
@@ -599,7 +600,7 @@ def main(fn):
 
         res = re.match('(.*)_hres', section_name)
         if res:
-            print "{0} is a hres column, popping it (Spirit of JSC)".format(section_name)
+            print("{0} is a hres column, popping it (Spirit of JSC)".format(section_name))
         else:
             continue
         
@@ -739,7 +740,7 @@ def print_imgs(output):
         savename = filename_ne + '_' + section_dict['name'] + '_raw.png'
         fig.savefig(savename)
         plt.close(fig)
-        print "plotted"
+        print("plotted")
         
         ##
         
@@ -747,7 +748,7 @@ def print_imgs(output):
         section_dict['time'] = channel_time
         output[section_dict['name']] = section_dict
         
-        print section_dict["type"]
+        print(section_dict["type"])
         try:
             
             fig = plt.figure()
@@ -764,7 +765,7 @@ def print_imgs(output):
             savename = filename_ne + '_' + section_dict['name'] + '.png'
             fig.savefig(savename)
             plt.close(fig)
-            print "plotted"
+            print("plotted")
             
         except:
             pass
